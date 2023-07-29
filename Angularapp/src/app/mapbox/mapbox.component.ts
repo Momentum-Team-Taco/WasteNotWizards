@@ -74,7 +74,7 @@ export class MapBoxComponent implements OnInit {
 
     setTimeout(() => {
       this.initMap(this.user_address, this.coordinates)
-    }, 1000)
+    }, 2000)
   }
 
   private initMap(user_coordinates, pin_coordinates) {
