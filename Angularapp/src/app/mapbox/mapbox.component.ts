@@ -34,7 +34,6 @@ export class MapBoxComponent implements OnInit {
 
   private map: mapboxgl.Map;
   private mapContainer: HTMLElement;
-
   private post_id: any;
   private user_address: Address[]; 
   private coordinates: any;
@@ -103,7 +102,9 @@ export class MapBoxComponent implements OnInit {
   }
 
   private fetchAndDisplayReservedPosts(): void {
-    this.http.get<Post[]>(`https://waste-not-wizards.onrender.com/api/reservedPosts?reserved_by=${this.thisUser}`)
+    const id = localStorage.getItem('id')
+    let url = `https://waste-not-wizards.onrender.com/api/reservedPosts?reserved_by=` + id
+    this.http.get<Post[]>(url)
       .subscribe(
         (data) => {
           this.reservedPosts = data

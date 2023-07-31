@@ -51,15 +51,6 @@ def get_nearby_coordinates(request):
     return JsonResponse(data, safe=False)
 
 @csrf_exempt
-def get_reserved_posts(request):
-    user = request.GET.get('reserved_by')
-
-    posts = Post.objects.filter(
-        reserved_by=user,
-    )
-    return JsonResponse(posts)
-
-@csrf_exempt
 def get_nearby_coordinates(request):
     user_latitude = float(request.GET.get('latitude', 0))
     user_longitude = float(request.GET.get('longitude', 0))
@@ -182,6 +173,13 @@ class ProviderPostsView(generics.ListAPIView):
             # If anonymous, return an empty queryset to indicate no posts are available.
             return Post.objects.none()
 
+class get_reserved_posts(generics.ListAPIView):
+    queryset = Post.objects.all()
+
+    def get_queryset(self):
+        return Post.objects.filter(reserved_by=self.request.user)
+    serializer_class = PostListSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 # View for retrieving, updating, and deleting a specific post
 class OnePostView(generics.RetrieveUpdateDestroyAPIView):

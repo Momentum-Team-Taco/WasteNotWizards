@@ -44,6 +44,12 @@ class PostListSerializer(serializers.ModelSerializer):
         slug_field="username", queryset=User.objects.all()
     )
 
+    reserved_by = serializers.SlugRelatedField(
+        slug_field="username", queryset=User.objects.all()
+    )
+
+
+
     class Meta:
         model = Post
         fields = "__all__"
